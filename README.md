@@ -3,36 +3,35 @@ This project aims to classify ECG signals into normal and abnormal classes using
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Usage](#usage)
-3. [STFT Visualizations](#stft-visualizations)
-4. [Convolutional Neural Network](#convolutional-neural-network)
-5. [How to Use the ECG Classifier](#how-to-use-the-ecg-classifier)
+2. [Dataset](#Dataset)
+3. [Usage](#usage)
+4. [STFT Visualizations](#stft-visualizations)
+5. [Convolutional Neural Network](#convolutional-neural-network)
+6. [How to Use the ECG Classifier](#how-to-use-the-ecg-classifier)
 
-# Introduction
+# Introduction 
 This project aims to develop a model for classifying ECG signals to aid in the diagnosis of heart diseases. Recent advancements in artificial intelligence have demonstrated that deep neural networks, such as CNN and ResNet, can directly extract features from data and recognize cardiac arrhythmias.
 
-# Dataset
+# Dataset 
 The dataset used in this project comes from the PTB Diagnostic ECG Database, accessible on Kaggle and PhysioNet. It includes abnormal and normal ECG signals.
 
-# Usage
+# Usage 
 To use the code in this project, follow these steps:
    Download the PTB Diagnostic ECG Database.
    Run the data exploration and create a database of spectrogram images obtained by STFT.
    Train the CNN model using the processed dataset.
    Use the ECG classifier to predict the class of new ECG signals.
 
-# STFT Visualizations
+# STFT Visualizations 
 The code includes visualizations of Short-Time Fourier Transforms (STFTs) of ECG signals using matplotlib.
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-
-# Define STFT parameters
+Define STFT parameters
 n_fft = 125
 hop_length = 64
-
-# Loop through all rows of "abNormalhHeartData" data and plot STFTs as PNG images
+Loop through all rows of "abNormalhHeartData" data and plot STFTs as PNG images
 for i in range(len(abNormalhHeartData)):
     # Load the data
     data = np.array(abNormalhHeartData.iloc[i].values.flatten().tolist())
@@ -56,12 +55,18 @@ for i in range(len(abNormalhHeartData)):
     plt.axis('off')
     plt.savefig(os.path.join('/content/drive/MyDrive/sujet_abnormal', f'figlog_{i}.png'), bbox_inches='tight', pad_inches=0, dpi=100)
     plt.clf()
-# Convolutional Neural Network (CNN)
+
+
+
+
+```
+
+
+# Convolutional Neural Network 
 The CNN model used includes several layers of convolution and pooling, followed by fully connected layers. This model is trained on the images of spectrograms obtained by STFT.
 ```python
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
-
 model = Sequential()
 model.add(Conv2D(20, (3,3), 1, activation='relu', input_shape=(256,256,3)))
 model.add(MaxPooling2D())
@@ -72,11 +77,12 @@ model.add(MaxPooling2D())
 model.add(Flatten())
 model.add(Dense(256, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
-How to Use the ECG Classifier
+
+```
+
+# How to Use the ECG Classifier 
 Use the ECG_Classifier function to classify a new ECG signal. The spectrogram image is preprocessed, and the model's prediction is displayed with a graphical visualization.
 
-# How to Use the ECG Classifier
-Use the ECG_Classifier function to classify a new ECG signal. The spectrogram image is preprocessed, and the model's prediction is displayed with a graphical visualization.
 ```python
 import cv2
 def ECG_Classifier(img_path):
@@ -91,3 +97,4 @@ def ECG_Classifier(img_path):
     plt.imshow(cv2.cvtColor(img,cv2.COLOR_BGR2RGB ))
     plt.title(ecg_class)
     plt.show()
+
